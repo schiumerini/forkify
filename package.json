@@ -1,0 +1,28 @@
+{
+  "name": "starter",
+  "version": "1.0.0",
+  "description": "Recipe application",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schiumerini/fortify.git"
+  },
+  "author": "David Schiumerini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schiumerini/fortify/issues"
+  },
+  "homepage": "https://github.com/schiumerini/fortify#readme",
+  "dependencies": {
+    "core-js": "^3.19.2",
+    "fractional": "^1.0.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.0.1",
+    "parcel": "^2.0.1"
+  }
+}
