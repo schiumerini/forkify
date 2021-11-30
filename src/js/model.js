@@ -3,12 +3,15 @@ import { getJSON } from './helpers.js';
 
 export const state = {
   recipe: {},
-  list: [],
+  search: {
+    query: '',
+    results: [],
+  },
 };
 
 export const loadRecipe = async function (id) {
   try {
-    const data = await getJSON(`${API_URL}/${id}${API_KEY}`);
+    const data = await getJSON(`${API_URL}${id}${API_KEY}`);
 
     const { recipe } = data.data;
     state.recipe = {
@@ -28,9 +31,18 @@ export const loadRecipe = async function (id) {
 
 export const loadSearchResults = async function (query) {
   try {
-    //https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza
+    state.search.query = query;
+
     const data = await getJSON(`${API_URL}?search=${query}`);
-    state.list = data.data.recipes;
+
+    state.search.results = data.data.recipes.map(rec => {
+      return {
+        id: rec.id,
+        title: rec.title,
+        publisher: rec.publisher,
+        image: rec.image_url,
+      };
+    });
   } catch (err) {
     throw err;
   }
