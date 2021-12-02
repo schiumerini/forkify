@@ -2,13 +2,14 @@ import * as model from './model.js';
 import recipeView from './views/RecipeView.js';
 import searchView from './views/SearchView.js';
 import searchResultsView from './views/SearchResultsView.js';
+import paginationView from './views/paginationView.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 // This is Parcel syntax NOT Javascript. TODO: find out how it works
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 const controlRecipes = async function () {
   try {
@@ -28,24 +29,36 @@ const controlRecipes = async function () {
 
 const controlSearchResults = async function () {
   try {
+    // 1) Get search query
     const query = searchView.getQuery();
     if (!query) return;
     searchResultsView.renderSpinner();
 
-    // 1) Loading Search Results
+    // 2) Loading Search Results
     await model.loadSearchResults(query);
 
-    // 2) Rendering Search Results
-    searchResultsView.render(model.state.search.results);
+    // 3) Rendering Search Results
+    searchResultsView.render(model.getSearchResultsPage());
+
+    // 4) Render initial pagination buttons
+    paginationView.render(model.state.search);
   } catch (err) {
     searchView.renderError(err);
   }
 };
-controlSearchResults();
+
+const controlPagination = function (goToPage) {
+  // 1) Render new results
+  searchResultsView.render(model.getSearchResultsPage(goToPage));
+
+  // 2) Render new pagination buttons
+  paginationView.render(model.state.search);
+};
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerRender(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 };
 
 init();
