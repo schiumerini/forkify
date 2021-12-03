@@ -21,13 +21,13 @@ class PreviewView extends View {
               this._data.title.slice(0, 24) + '...'
             }</h4>
             <p class="preview__publisher">${this._data.publisher}</p>
-            <!-- 
-            <div class="preview__user-generated">
+            <div class="preview__user-generated ${
+              this._data.key ? '' : 'hidden'
+            }">
               <svg>
                 <use href="${icons}#icon-user"></use>
               </svg>
             </div>
-            -->
           </div>
         </a>
       </li>
